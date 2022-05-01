@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>Yelling in Flowers</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+    <style>
+      HTML {
+        margin: env(safe-area-inset);
+        padding: env(safe-area-inset);
+      }
+
+      BODY {
+        width: 100%;
+        height: 100vh;
+        overflow: hidden;
+
+        background-color: #222;
+        background-size: 50%;
+
+        margin: 0;
+        padding: 0;
+      }
+  
+      MAIN {
+        display: block;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
+  
+      .flower-image {
+        box-sizing: border-box;
+
+        display: block;
+        width: 100%;  
+        height: 100%;
+        
+        background-size: cover;
+        background-position: center center;
+
+        text-indent: -999em;
+
+        object-fit: cover;
+        margin: env(safe-area-inset);
+        padding: 0;
+      }
+
+      /* Portrait */
+      @media only screen 
+        and (min-device-width: 320px) 
+        and (max-device-width: 480px)
+        and (-webkit-min-device-pixel-ratio: 2)
+        and (orientation: portrait) {
+          BODY {
+            height: 86.5vh;
+            overflow: hidden;
+          }
+        }
+
+    </style>
+  </head>
+
+  <body>
+
+    <main id="page">
+        <a id="flower" class="flower-image" href="/flowers">Screaming in Flowers</a>
+    </main>
+
+    <script>
+      // resize image quickly
+      function fixPageSize() {
+        var page = document.getElementById("page");
+        page.style.height = window.innerHeight + "px";
+        //page.style.width = window.width + "px";
+
+        window.scrollTo(0,0);
+      }
+
+      function getNewImage() {
+
+        const promise = new Promise((resolve, reject) => {
+        const request = new XMLHttpRequest();
+
+        request.open('GET', 'https://alanunderwood.com/flowers/api');
+        request.onload = () => {
+            if (request.status === 200) {
+            resolve(request.response); // we got data here, so resolve the Promise
+            } else {
+            reject(Error(request.statusText)); // status is not 200 OK, so reject
+            }
+          };
+
+          request.onerror = () => {
+              reject(Error('Error fetching data.')); // error occurred, reject the  Promise
+          };
+
+          request.send(); // send the request
+        });
+
+        console.log('Asynchronous request made.');
+
+        promise.then((data) => {
+          console.log('Got data! Promise fulfilled.');
+          //document.body.textContent = JSON.parse(data).flower;
+
+          var flower = document.getElementById("flower")
+          var flower_image = JSON.parse(data).flower;
+
+          console.log(flower_image)
+          flower.style.backgroundImage = 'url("images/' + flower_image + '")';
+
+        }, (error) => {
+          console.log('Promise rejected.');
+          console.log(error.message);
+        });
+
+      }
+
+      // events 
+      fixPageSize();
+      getNewImage();
+
+      window.onload = function() {
+        fixPageSize();
+      }
+      
+      window.onresize = function() {
+        fixPageSize();
+      }
+
+      window.onorientationchange = function() {
+        fixPageSize();
+      }
+    </script>
+
+  </body>
+</html>
