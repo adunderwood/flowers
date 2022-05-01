@@ -3,7 +3,7 @@ const path = require('path');
 const fs = require('fs');
 const http = require('http');
 
-const directoryPath = path.join(__dirname, 'images');
+const directoryPath = path.join(__dirname, '../images');
 
 const host = 'localhost';
 const port = 9999;
