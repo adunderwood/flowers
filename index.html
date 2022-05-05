@@ -43,6 +43,7 @@
       }
 
         MAIN A,
+        MAIN DIV,
         MAIN IMG {
           display: block;
           background: #222;
@@ -100,7 +101,7 @@
       var poll = setInterval(function() {
 
         var tmp = document.getElementById('page');
-        var tmpLinks = tmp.getElementsByTagName('img');
+        var tmpLinks = tmp.getElementsByTagName('div');
 
         if (tmpLinks.length > buffer) {
 
@@ -130,7 +131,7 @@
         console.log("SET!");
 
         var tmp = document.getElementById('page');
-        var tmpLinks = tmp.getElementsByTagName('img');
+        var tmpLinks = tmp.getElementsByTagName('div');
 
         page.style.visibility = "visible";
 
@@ -141,7 +142,7 @@
 
       function nextFlower() {
         var page = document.getElementById("page")
-        page_flowers = page.getElementsByTagName("img");
+        page_flowers = page.getElementsByTagName("div");
 
         var nextFlower = page_flowers[1];
 
@@ -214,42 +215,18 @@
           //flower.style.backgroundImage = 'url("images/' + flower_image + '")';
 
           // add a new flower to the end of the loading div on click
-          var a = document.createElement('img'); 
+          var div = document.createElement('div'); 
                   
-          // Create the text node for anchor element.
-          //var link = document.createTextNode("Flower");
-          //a.appendChild(link); 
-            
-          // Set the title.
-          //a.title = "Flower"; 
-            
-          // Set the background image
-
-          const randomColor = Math.floor(Math.random()*16777215).toString(16);
-          //a.style.backgroundColor = "#" + randomColor;
-          a.style.backgroundColor = "#222";
-          a.className = "flower-image";
-          //a.href = "#"; 
-          a.id = flower_image.replace(".jpg","").replace(".jpeg","");
-
-          if (window.mobileAndTabletCheck()) {
-            a.setAttribute("onmousedown", "return nextFlower()")
-          } else {
-            a.setAttribute("onmouseup", "return nextFlower()");
-          }
-
-          a.style.backgroundImage = "url('https://www.alanunderwood.com/flowers/images/" + flower_image + "')";
+          div.id = flower_image.replace(".jpg","").replace(".jpeg","");
+          div.className = "flower-image";
+          div.style.backgroundColor = "#222";
+          div.style.backgroundImage = "url('https://www.alanunderwood.com/flowers/images/" + flower_image + "')";
+          div.setAttribute("onclick", "return nextFlower()")
           
-
           if (flower_image) {
-            page.appendChild(a)
-
+            page.appendChild(div)
           }
-
-                    //a.style.backgroundImage = "url('https://www.alanunderwood.com/flowers/images/" + flower_image + "')";
-
-          // console.log(loading)
-
+          
         }, (error) => {
           console.log('Promise rejected.');
           console.log(error.message);
