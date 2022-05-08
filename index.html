@@ -2,7 +2,7 @@
 
 <html>
   <head>
-    <title>Yelling with Flowers</title>
+    <title>Flowers</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
     <style>
@@ -188,7 +188,7 @@
         var page = document.getElementById("page");
 
         var rnd_qs = Math.floor(Math.random() * 10000)
-        request.open('GET', 'https://alanunderwood.com/flowers/api?q=' + rnd_qs);
+        request.open('GET', '/flowers/api?q=' + rnd_qs);
         request.onload = () => {
             if (request.status === 200) {
             resolve(request.response); // we got data here, so resolve the Promise
@@ -220,7 +220,7 @@
           div.id = flower_image.replace(".jpg","").replace(".jpeg","");
           div.className = "flower-image";
           div.style.backgroundColor = "#222";
-          div.style.backgroundImage = "url('https://www.alanunderwood.com/flowers/images/" + flower_image + "')";
+          div.style.backgroundImage = "url('/flowers/images/" + flower_image + "')";
           div.setAttribute("onclick", "return nextFlower()")
           
           if (flower_image) {
