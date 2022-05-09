@@ -3,7 +3,7 @@
 <html>
   <head>
     <title>Yelling with Flowers</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, maximum-scale=1.0, viewport-fit=cover, user-scalable=no">
 
     <style>
       HTML {
@@ -174,7 +174,7 @@
         }
         
         // re-sort the previous buffer
-        sortByOrientation();
+        //sortByOrientation();
 
         return false;
       }
@@ -347,15 +347,13 @@
         return check;
       };
 
+      // bots live here
 
-
-      if (window.mobileAndTabletCheck()) {
-        //delay = 500;
-        //initial_buffer = 1;
-        //buffer = 1;
-      }
+      var sortBot = setInterval(function() {
+        // re-sorts the images every few seconds
+        sortByOrientation();
+      }, 5000)
       
-
     </script>
 
   </body>
