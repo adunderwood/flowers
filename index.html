@@ -2,7 +2,7 @@
 
 <html>
   <head>
-    <title>Flowers</title>
+    <title>Yelling with Flowers</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
     <style>
@@ -59,7 +59,7 @@
         cursor: pointer;
 
         background-size: cover;
-        background-position: center center;
+        background-position: center;
         border: 0;
         outline: none;
 
@@ -69,6 +69,8 @@
         margin: env(safe-area-inset);
         padding: 0;
       }
+
+      .buffer { display: none; }
 
       /* Portrait */
       @media only screen 
@@ -89,8 +91,9 @@
 
     <div id="modal"></div>
 
-    <main id="page">
-    </main>
+    <main id="page"></main>
+
+    <div id="buffer"></div>
     
     <script>
       // resize image quickly
@@ -107,18 +110,24 @@
 
           var wait_a_second = setTimeout(function() {
             console.log("GO!");
-            
+                        
+            sortByOrientation();
+
             var modal = document.getElementById("modal");
             modal.style.display = "none";
 
-            clearInterval(poll);
           }, delay)
 
+          clearPoll();
         }
 
         //console.log(tmpLinks.length)
 
       }, 250);
+
+      function clearPoll() {
+        clearTimeout(poll)
+      }
 
       function loaded() {
         console.log("READY!");
@@ -164,6 +173,9 @@
           getNewImage();
         }
         
+        // re-sort the previous buffer
+        sortByOrientation();
+
         return false;
       }
 
@@ -187,6 +199,7 @@
         var loading = document.getElementById("loading");
         var page = document.getElementById("page");
 
+        // random querystring tricks the browser into thinking it's a unique request
         var rnd_qs = Math.floor(Math.random() * 10000)
         request.open('GET', '/flowers/api?q=' + rnd_qs);
         request.onload = () => {
@@ -212,13 +225,16 @@
 
           var flower = document.getElementById("flower")
           var flower_image = JSON.parse(data).flower;
+          var meta = JSON.parse(data).meta;
           //flower.style.backgroundImage = 'url("images/' + flower_image + '")';
+
+          // console.log(meta);
 
           // add a new flower to the end of the loading div on click
           var div = document.createElement('div'); 
                   
           div.id = flower_image.replace(".jpg","").replace(".jpeg","");
-          div.className = "flower-image";
+          div.className = "flower-image " + meta.display_mode;
           div.style.backgroundColor = "#222";
           div.style.backgroundImage = "url('/flowers/images/" + flower_image + "')";
           div.setAttribute("onclick", "return nextFlower()")
@@ -234,21 +250,89 @@
 
       }
 
+      var display_mode = "";
+      function getDisplayOrientation() {
+        var dm = "";
+        if (window.innerHeight > window.innerWidth) {
+          dm = "portrait";
+        } else {
+          // both landscape and square
+          dm = "landscape";
+        }
+
+        console.log(dm)
+        return dm;
+      }
+
+      function sortByOrientation() {
+        var orientation = getDisplayOrientation();
+        var mv = "";
+
+        // select target, opposite of current orientation
+        if (orientation == "portrait") {
+          mv = "landscape";
+        } else {
+          // landscape or square 
+          mv = "portrait";
+        }
+
+        console.log("Sort by orientation");
+
+        var page = document.getElementById("page");
+        var images = page.getElementsByTagName("div");
+
+        var buffer = document.getElementById("buffer");
+
+        // move target images to the buffer
+        for (var i = 1; i < images.length; i++) {
+          var img = images[i];
+          var clsList = img.classList;
+
+          for (var ii = 0; ii < clsList.length; ii++) {
+            if (clsList[ii] == mv) {
+              console.log("move to buffer");
+
+              img.remove();
+              buffer.append(img)
+            }
+          }
+        }
+
+        // move buffered images to the end of the list
+        var bufferedImages = buffer.getElementsByTagName("div");
+        for (var i = 0; i < bufferedImages.length; i++) {
+          var buff = bufferedImages[i];
+          page.append(buff);
+        }
+
+        // clear the buffer
+        buffer.innerHTML = "";
+
+      }
+      
       // events 
       fixPageSize();
 
-
       window.onload = function() {
+        display_mode = getDisplayOrientation();
+
         fixPageSize();
         loaded();
+
+        sortByOrientation();
       }
       
       window.onresize = function() {
+        display_mode = getDisplayOrientation();
+
         fixPageSize();
       }
 
       window.onorientationchange = function() {
+        display_mode = getDisplayOrientation();
+
         fixPageSize();
+        sortByOrientation();
       }
 
       window.mobileCheck = function() {

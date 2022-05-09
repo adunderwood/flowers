@@ -2,17 +2,63 @@
 const path = require('path');
 const fs = require('fs');
 const http = require('http');
+const sharp = require("sharp");
 
 const directoryPath = path.join(__dirname, '../images');
 
 const host = 'localhost';
 const port = 9999;
 
-function getFlower() {
+async function getMetadata(file, res) {
+  try {
+
+    var img = "../images/" + file.flower;
+
+    const metadata = await sharp(img).metadata();
+    // file.meta = metadata;
+    var meta = {}
+    if (metadata.format) {
+      meta.format = metadata.format;
+    }
+    meta.dpi = metadata.density;
+    meta.width = metadata.width;
+    meta.height = metadata.height;
+    meta.alpha = metadata.hasAlpha;
+    meta.progressive = metadata.isProgressive;
+
+    file.meta = meta;
+
+    if (file.meta.width > file.meta.height) {
+      file.meta.display_mode = "landscape";
+    }
+
+    if (file.meta.width < file.meta.height) {
+      file.meta.display_mode = "portrait";
+    }
+
+    if (file.meta.width == file.meta.height) {
+      file.meta.display_mode = "square";
+    }
+    console.log(file);
+
+  } catch (error) {
+    console.log(`An error occurred during processing: ${error}`);
+  }
+
+  // try to attach meta data, if not, just send what you got
+  sendData(file, res);
+}
+
+
+function sendData(file, res) {
+  res.writeHead(200);
+
+  floutput = JSON.stringify(file)
+  res.end(floutput);
+
 }
 
 const requestListener = function (req, res) {
-  res.writeHead(200);
 
   var flower;
   var arrFlowers = []
@@ -34,10 +80,10 @@ const requestListener = function (req, res) {
 
     var floutput = {}
     floutput.flower = flower
-    floutput = JSON.stringify(floutput)
 
-    console.log(floutput)
-    res.end(floutput);
+    getMetadata(floutput, res)
+
+//    console.log(floutput)
 
   });
 };
