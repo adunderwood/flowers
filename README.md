@@ -2,7 +2,29 @@
 
 <img src="https://alanunderwood.com/images/flowers-thumbnail.jpg" alt="Flowers Thumbnail Preview">
 
-This app cycles through a set of images randomly.
+Overload your senses with an abundance of flowers. This app cycles through a set of images randomly. The default image set is flowers, but the app supports any set of images, of any size and image quality. 
+
+## Features
+
+  * Dynamic image loading to reduce or eliminate load times, even on slower connections
+  * Unlimited images
+  * Forward and reverse image navigation with a full history
+  * Download images or copy to the clipboard
+  * Fully public domain
+
+## Benefits
+
+  * Calming effect
+  * Sensory overload
+  * Stress reduction
+
+## Uses
+
+  * Presentations
+  * Videos
+  * Social media
+  * Backgrounds
+  * Stage or set projections
 
 ## Installation
 
