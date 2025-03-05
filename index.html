@@ -2,8 +2,8 @@
 
 <html>
   <head>
-    <title>Yelling with Flowers</title>
-    <meta name="viewport" content="width=device-width, maximum-scale=1.0, viewport-fit=cover, user-scalable=no">
+    <title>Flowers for Tara</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
     <style>
       HTML {
@@ -23,23 +23,76 @@
         padding: 0;
       }
   
-      #modal {
+      #page {
+        z-index: 10;
+      }
+
+      #modal, #help {
         position: absolute;
         left: 0;
         top: 0;
         width: 101%;
         height: 101%;
 
-        background: #222;
-        z-index: 999;
+        background: url("/flowers/loading.gif");
+        background-repeat: no-repeat;
+        background-position: center center;
+
+        background-color: #222;
+        z-index: 998;
       }
+
+      #help {
+        background-image: none;
+        background-color: rgba(0,0,0,.8);
+        z-index: 9;
+        opacity: 0;
+      }
+
+          .help {
+            color: #CCC;
+
+            font-family: sans-serif;
+            font-size: 12px;
+            
+            width: 100%;
+            text-align: center;
+            position: absolute;
+            bottom: 3em;
+          }
+
+            #help .help {
+              bottom: 35%;
+            }
+
+            .help HR { display: none; }
+            .help .hr {
+              width: 200px;
+              border-bottom: 1px solid #AAA;
+              margin: .5em auto;
+            }
+
+            .help A {
+              color: #CCC;
+            }
+
+            .help UL {
+              list-style-type: none;
+              margin: 0;
+              padding: 0;
+            }
+
+              .help UL LI {
+                margin: 0;
+                padding: 0;
+              }
 
       MAIN {
         display: block;
         visibility: hidden;
         width: 101%;
         height: 100%;
-        overflow: hidden; *
+        overflow: hidden;
       }
 
         MAIN A,
@@ -59,7 +112,7 @@
         cursor: pointer;
 
         background-size: cover;
-        background-position: center;
+        background-position: center center;
         border: 0;
         outline: none;
 
@@ -70,8 +123,65 @@
         padding: 0;
       }
 
-      .buffer { display: none; }
+      #history { display: none; }
 
+      #contextMenu {
+        display:none;
+        z-index: 100;
+        position: absolute;
+        width: auto;
+
+        border: 1px solid #000;
+
+        box-shadow: 7px 7px 4px -6px rgba(0,0,0,0.75);
+      }
+
+      #contextMenu .menu {
+          position:relative;
+          display:block;
+
+          left: 0px;
+          top: 0px;
+          height: 20px;
+
+          font-family: sans-serif;
+          font-weight:normal;
+          white-space:nowrap;
+
+          background-color: #333;
+          border-bottom: 1px solid #555;
+
+          margin: 0;
+          padding: 5px 1em 0 5px;
+        }
+
+        #contextMenu .menu:last-child {
+          border-bottom: 0;
+        }
+
+        #contextMenu .menu A {
+          display: block;
+          width: 100%;
+          height: 100%;
+          
+          
+          color: #CCC;
+          font-size: 12px;
+          text-decoration: none;
+
+          margin: 0;
+          padding: 0;
+        }
+
+          #contextMenu .menu A U {
+            text-decoration: underline;
+          }
+
+      #contextMenu .menu:hover{
+          background-color:#555;
+          cursor: pointer;
+      }
+      
       /* Portrait */
       @media only screen 
         and (min-device-width: 320px) 
@@ -89,17 +199,82 @@
 
   <body>
 
-    <div id="modal"></div>
+    <div id="modal">
 
-    <main id="page"></main>
+      <div class="help">
+        <h3>
+          Keyboard Shortcuts:
+        </h3>
 
-    <div id="buffer"></div>
+        <ul>
+          <li>Next: &#x2192 or <u>N</u></li>
+          <li>Back: &#x2190 or <u>B</u></li>
+          <li>&nbsp;</li>
+          <li>Download: <u>D</u></li>
+          <li>Open in a New Tab: <u>T</u></li>
+          <li>&nbsp;</li>
+          <li>Help: <u>H</u></li>
+          <li><div class="hr"><hr></div></li>
+          <li>Save on Mobile: Long Press</li>
+        </ul>
+      </div>
+    </div>
+
+    <div id="help" onclick="closeHelp()">
+      <div class="help">
+        <p>
+          Flower Count: <span id="flowerCount">0</span>
+        </p>
+
+        <h3>
+          Keyboard Shortcuts:
+        </h3>
+
+        <ul>
+          <li>&nbsp;</li>
+          <li>Next: &#x2192 or <u>N</u></li>
+          <li>Back: &#x2190 or <u>B</u></li>
+          <li>&nbsp;</li>
+          <li>Download: <u>D</u></li>
+          <li>Open in a New Tab: <u>T</u></li>
+          <li>&nbsp;</li>
+          <li>Help: <u>H</u></li>
+          <li>&nbsp;</li>
+          <li><span title="Turning history off may save system resources">Use Session History</span>: <input id="historySetting" type="checkbox" onclick="setHistory()" checked></li>
+          <li><div class="hr"><hr></div></li>
+          <li>Save on Mobile: Long Press</li>
+          <li>&nbsp;</li>
+          <li>&nbsp;</li>
+          <li><a href="javascript:closeHelp()">Close Help</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div id="history"></div>
+
+    <main id="page">
+    </main>
     
+
+    <nav id="contextMenu">
+      <div class="menu" title="Open the image in New Tab"><a href="javascript:openFlower('tab')">Open in New <u>T</u>ab</a></div>
+      <div class="menu" title="Save this image to your computer"><a href="javascript:openFlower('download')"><u>D</u>ownload Image</a></div>
+      <div class="menu" title="Show the help screen"><a href="javascript:showHelp()"><u>H</u>elp</a></div>
+    </nav>
+
     <script>
       // resize image quickly
       var initial_buffer = 100;
       var buffer = 2;
       var delay = 5000;
+
+      // track the number of flowers the user has seen
+      var flowerCount = 1;
+      var historyCount = -1;
+      var totalCount = 1;
+
+      var firstUse = true;
+      var historySetting = true;
 
       var poll = setInterval(function() {
 
@@ -110,23 +285,82 @@
 
           var wait_a_second = setTimeout(function() {
             console.log("GO!");
-                        
-            sortByOrientation();
-
+            
             var modal = document.getElementById("modal");
             modal.style.display = "none";
 
-          }, delay)
+            // if you waited for the modal to clear, update the count normally
+            firstUse = false;
 
-          clearPoll();
+            clearInterval(poll);
+          }, delay)
         }
 
         //console.log(tmpLinks.length)
 
       }, 250);
 
-      function clearPoll() {
-        clearTimeout(poll)
+      function setHistory() {
+        var e = window.event
+
+        historySetting = !(historySetting);
+        e.stopPropagation()
+      }
+
+      function fadeIn(el, time) {
+        el.style.opacity = 0;
+
+        var last = +new Date();
+        var tick = function() {
+          el.style.opacity = +el.style.opacity + (new Date() - last) / time;
+          last = +new Date();
+
+          if (+el.style.opacity < 1) {
+            (window.requestAnimationFrame && requestAnimationFrame(tick)) || setTimeout(tick, 16);
+          }
+        };
+
+        tick();
+      }
+
+      function fadeOut(element, toValue = 0, duration = 200, z=1) {
+        // Store our element's current opacity (or default to 1 if null)
+        const fromValue = parseFloat(element.style.opacity) || 1;
+
+        // Mark the start time (in ms). We use this to calculate a ratio
+        // over time that applied to our supplied duration argument
+        const startTime = Date.now();
+
+        // Determines time (ms) between each frame. Sometimes you may not
+        // want a full 60 fps for performance reasons or aesthetic 
+        const framerate = 1000 / 60; // 60fps
+        
+        // Store reference to interval (number) so we can clear it later
+        let interval = setInterval(() => {
+            const currentTime = Date.now();
+
+            // This creates a normalized number between now vs when we
+            // started and how far into our desired duration it goes
+            const timeDiff = (currentTime - startTime) / duration;
+
+            // Interpolate our values using the ratio from above
+            const value = fromValue - (fromValue - toValue) * timeDiff;
+            
+            // If our ratio is >= 1, then we're done.. so stop processing
+            if (timeDiff >= 1) {
+                clearInterval(interval);
+                interval = 0;
+            }
+            
+            // Apply visual. Style attributes are strings.
+            element.style.opacity = value.toString();
+        }, framerate, adjustZ(element, duration, z))
+      }
+
+      function adjustZ(element, duration, z=1) {
+        t = setTimeout(() => {
+          element.style.zIndex = z;
+        }, duration)
       }
 
       function loaded() {
@@ -149,21 +383,90 @@
         
       }
 
-      function nextFlower() {
-        var page = document.getElementById("page")
+      function showHelp() {
+        // update flower count
+        if (!(firstUse)) {
+          var fc = document.getElementById("flowerCount");
+          fc.innerHTML = (flowerCount).toString(); // + " of " + totalCount.toString();
+        }
+
+        // close context menu
+        var ctxMenu = document.getElementById("contextMenu");
+        ctxMenu.style.display = "none";
+
+        var modal = document.getElementById("help");
+        //help.style.display = "block";
+        modal.style.zIndex = 999;
+        fadeIn(modal, 200)
+      }
+
+      function closeHelp() {
+        var modal = document.getElementById("help");
+        //help.style.display = "none";
+        fadeOut(modal, 0, 200, 9);
+
+        firstUse = false;
+      }
+
+      function closeModal() {
+        var modal = document.getElementById("modal");
+        modal.style.display = "none";
+      }
+
+      function openFlower(action) {
+        if (!(action)) {
+          action = "save"
+        }
+        var page = document.getElementById("page");
+        var flower = page.firstElementChild;
+
+        var img = flower.style.backgroundImage.match(/url\(["']?([^"']*)["']?\)/)[1];
+
+        // this is so dumb....
+        const a = document.createElement('a')
+        a.style.display = "none";
+        a.href = img
+
+        if ((action == "save") || (action == "download")) {
+          a.download = img
+        } else if ((action == "tab") || (action == "open")) {
+          a.target = "_blank"
+        }
+
+        document.body.appendChild(a)
+        a.click()
+        document.body.removeChild(a)
+
+      }
+
+      function nextFlower(key = false) {
+        var page = document.getElementById("page");
         page_flowers = page.getElementsByTagName("div");
 
         var nextFlower = page_flowers[1];
-
         var target = page_flowers[0];
 
-        if (target) {
-          target.remove();
+        // calculate mouse position
+        var e = window.event;
+        var w = window.screen.width;
+
+        var posX = e.clientX;
+        var posY = e.clientY;
+        
+        if (posX > (w * .2) || key) { // override on keystroke
+          // 80% forward
+          if (target) {
+            //target.remove();
+            moveToHistory(target)
+          } else {
+            // repopulate
+            for (var i = 0; i < buffer * 2; i++) {
+              getNewImage();
+            }
+        }
         } else {
-          // repopulate
-          for (var i = 0; i < buffer * 2; i++) {
-            getNewImage();
-          }
+          // left 20% back
+          getHistory();
         }
 
         //page_flowers[0] = target.parentNode.removeChild(target);
@@ -173,10 +476,58 @@
           getNewImage();
         }
         
-        // re-sort the previous buffer
-        //sortByOrientation();
-
         return false;
+      }
+
+      function moveToHistory(target) {
+        
+        if (historySetting) {
+          // only if user has history setting turned on
+          var hist = document.getElementById("history");
+          hist.appendChild(target);
+        } else {
+          target.remove();
+        }
+      
+        if (flowerCount + historyCount == 0) {
+          flowerCount++;
+        }
+        historyCount--;
+        totalCount++;
+
+        //console.log("Flower Count: " + flowerCount)
+        //console.log("History Count: " + historyCount)
+        //console.log("Total Count: " + totalCount)
+      }
+
+      function getHistory(num) {
+        var hist = document.getElementById("history");
+        var page = document.getElementById("page")
+        
+        if (hist.childElementCount > 0) {
+          //flowerCount--;
+          historyCount++;
+          totalCount++;
+        }
+
+        if (!(num)) {
+          num = 1;
+        }
+
+        for (var i = 0; i < num; i++) {
+          var el = hist.lastChild;
+          var firstHistItem = page.firstChild;
+
+          if (el) {
+            // only if there is a history
+            page.insertBefore(el, firstHistItem);
+          }
+        } 
+        
+        //console.log("Flower Count: " + flowerCount)
+        //console.log("History Count: " + historyCount)
+        //console.log("Total Count: " + totalCount)
+        
       }
 
       function fixPageSize() {
@@ -199,9 +550,10 @@
         var loading = document.getElementById("loading");
         var page = document.getElementById("page");
 
-        // random querystring tricks the browser into thinking it's a unique request
         var rnd_qs = Math.floor(Math.random() * 10000)
         request.open('GET', '/flowers/api?q=' + rnd_qs);
+        //console.log('/flowers/api?q=' + rnd_qs)
+
         request.onload = () => {
             if (request.status === 200) {
             resolve(request.response); // we got data here, so resolve the Promise
@@ -221,22 +573,20 @@
 
         promise.then((data) => {
           //console.log('Got data! Promise fulfilled.');
-          //document.body.textContent = JSON.parse(data).flower;
+          //console.log(JSON.parse(data));
 
           var flower = document.getElementById("flower")
           var flower_image = JSON.parse(data).flower;
-          var meta = JSON.parse(data).meta;
           //flower.style.backgroundImage = 'url("images/' + flower_image + '")';
-
-          // console.log(meta);
 
           // add a new flower to the end of the loading div on click
           var div = document.createElement('div'); 
                   
           div.id = flower_image.replace(".jpg","").replace(".jpeg","");
-          div.className = "flower-image " + meta.display_mode;
+          div.className = "flower-image";
           div.style.backgroundColor = "#222";
           div.style.backgroundImage = "url('/flowers/images/" + flower_image + "')";
+          //img.src = "/flowers/images/" + flower_image;
           div.setAttribute("onclick", "return nextFlower()")
           
           if (flower_image) {
@@ -250,89 +600,21 @@
 
       }
 
-      var display_mode = "";
-      function getDisplayOrientation() {
-        var dm = "";
-        if (window.innerHeight > window.innerWidth) {
-          dm = "portrait";
-        } else {
-          // both landscape and square
-          dm = "landscape";
-        }
-
-        console.log(dm)
-        return dm;
-      }
-
-      function sortByOrientation() {
-        var orientation = getDisplayOrientation();
-        var mv = "";
-
-        // select target, opposite of current orientation
-        if (orientation == "portrait") {
-          mv = "landscape";
-        } else {
-          // landscape or square 
-          mv = "portrait";
-        }
-
-        console.log("Sort by orientation");
-
-        var page = document.getElementById("page");
-        var images = page.getElementsByTagName("div");
-
-        var buffer = document.getElementById("buffer");
-
-        // move target images to the buffer
-        for (var i = 1; i < images.length; i++) {
-          var img = images[i];
-          var clsList = img.classList;
-
-          for (var ii = 0; ii < clsList.length; ii++) {
-            if (clsList[ii] == mv) {
-              console.log("move to buffer");
-
-              img.remove();
-              buffer.append(img)
-            }
-          }
-        }
-
-        // move buffered images to the end of the list
-        var bufferedImages = buffer.getElementsByTagName("div");
-        for (var i = 0; i < bufferedImages.length; i++) {
-          var buff = bufferedImages[i];
-          page.append(buff);
-        }
-
-        // clear the buffer
-        buffer.innerHTML = "";
-
-      }
-      
       // events 
       fixPageSize();
 
-      window.onload = function() {
-        display_mode = getDisplayOrientation();
 
+      window.onload = function() {
         fixPageSize();
         loaded();
-
-        sortByOrientation();
       }
       
       window.onresize = function() {
-        display_mode = getDisplayOrientation();
-
         fixPageSize();
       }
 
       window.onorientationchange = function() {
-        display_mode = getDisplayOrientation();
-
         fixPageSize();
-        sortByOrientation();
       }
 
       window.mobileCheck = function() {
@@ -347,13 +629,119 @@
         return check;
       };
 
-      // bots live here
 
-      var sortBot = setInterval(function() {
-        // re-sorts the images every few seconds
-        sortByOrientation();
-      }, 5000)
+
+      if (window.mobileAndTabletCheck()) {
+        //delay = 500;
+        //initial_buffer = 1;
+        //buffer = 1;
+        //showHelp();
+      }
       
+      document.onkeydown = function(e) {
+
+        var ctxMenu = document.getElementById("contextMenu");
+        ctxMenu.style.display = "none";
+
+        if ((e.key == "f") || (e.key == "n") || (e.code == "Enter") || (e.code == 'Space') || (e.keyCode == '39')) {
+          closeHelp();
+          closeModal();
+          nextFlower(true); // send with keystroke indicator
+        }
+
+        if (e.key == "d") {
+          closeHelp();
+          closeModal();
+          openFlower('download');
+        }
+
+        if (e.key == "t") {
+          closeHelp();
+          closeModal();
+          openFlower('tab');
+        }
+
+        if (e.key == "h") {
+          var help = document.getElementById("help");
+          var o = help.style.zIndex;
+
+          if (o != 999) {
+            // only show if it's not already showing
+            showHelp();
+          } else {
+            // hide it if it is
+            closeHelp();
+          }
+        }
+        
+        if ((e.key == "a") || (e.key == "b") || (e.keyCode == '37')) { // back arrow
+          closeHelp();
+          closeModal();
+
+          getHistory();
+        }
+
+        if ((e.key === "Escape") || (e.keyCode == 27)) { // escape
+          //var modal = document.getElementById("modal");
+          //modal.style.display = "none";
+
+          var ctxMenu = document.getElementById("contextMenu");
+          ctxMenu.style.display = "none";
+
+          closeHelp();
+        }
+      }
+
+      var pageBody = document.getElementById("page");
+      pageBody.addEventListener("contextmenu",function(event){
+          event.preventDefault();
+          var ctxMenu = document.getElementById("contextMenu");
+          ctxMenu.style.display = "block";
+          ctxMenu.style.left = (event.pageX - 10)+"px";
+          ctxMenu.style.top = (event.pageY - 10)+"px";
+      },false);
+      pageBody.addEventListener("click",function(event){
+          var ctxMenu = document.getElementById("contextMenu");
+          ctxMenu.style.display = "";
+          ctxMenu.style.left = "";
+          ctxMenu.style.top = "";
+      },false);
+
+      /*
+      let touchstartX = 0
+      let touchendX = 0
+          
+      function checkDirection() {
+        // back
+        if (touchendX < touchstartX) {
+          nextFlower();
+        }
+
+        // forward
+        if (touchendX > touchstartX) {
+          getHistory();
+        }
+      }
+
+      document.addEventListener('touchstart', e => {
+        touchstartX = e.changedTouches[0].screenX
+      })
+
+      document.addEventListener('touchend', e => {
+        touchendX = e.changedTouches[0].screenX
+        checkDirection()
+      })
+      */
+    </script>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-8KBWFBFNLF"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-8KBWFBFNLF');
     </script>
 
   </body>
