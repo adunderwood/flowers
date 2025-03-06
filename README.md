@@ -42,17 +42,18 @@ Clone the repository into your web root directory (usually /var/www/html).
 
 ### Install NodeJS API
 <code>cd flowers/api
+mv example.env .env
 npm install</code>
 
 ### Test the API
 
-<code>node flowers.js</code>
+<code>node flowers_API.js</code>
 
 Navigate to http://localhost:9999 to make sure the API is working. You will need to have image in the ./images folder for the API to output.
 
 ### Install PM2 to run unattended
 <code>sudo npm install pm2 --global
-pm2 start flowers.js
+pm2 start flowers_API.js
 pm2 save</code>
 
 ### Setup PM2 to start on reboot
