@@ -1,0 +1,200 @@
+HTML {
+  margin: env(safe-area-inset);
+  padding: env(safe-area-inset);
+}
+
+BODY {
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+
+  background-color: #222;
+  background-size: 50%;
+
+  margin: 0;
+  padding: 0;
+}
+
+LABEL {
+  display: block;
+}
+
+INPUT[type="button"].selected {
+  background-color: #00f;
+  color: #fff;
+}
+
+#automatic_advance {
+  margin-bottom: 2em;
+}
+
+#page {
+  z-index: 10;
+}
+
+#modal,
+#help {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 101%;
+  height: 101%;
+
+  background: url("/flowers/loading.gif");
+  background-repeat: no-repeat;
+  background-position: center center;
+
+  background-color: #222;
+  z-index: 998;
+}
+
+#help {
+  background-image: none;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 9;
+  opacity: 0;
+}
+
+.help {
+  color: #ccc;
+
+  font-family: sans-serif;
+  font-size: 12px;
+
+  width: 100%;
+  text-align: center;
+  position: absolute;
+  bottom: 3em;
+}
+
+#help .help {
+  bottom: 35%;
+}
+
+.help HR {
+  display: none;
+}
+.help .hr {
+  width: 200px;
+  border-bottom: 1px solid #aaa;
+  margin: 0.5em auto;
+}
+
+.help A {
+  color: #ccc;
+}
+
+.help UL {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.help UL LI {
+  margin: 0;
+  padding: 0;
+}
+
+MAIN {
+  display: block;
+  visibility: hidden;
+  width: 101%;
+  height: 100%;
+  overflow: hidden;
+}
+
+MAIN A,
+MAIN DIV,
+MAIN IMG {
+  display: block;
+  background: #222;
+}
+
+.flower-image {
+  box-sizing: border-box;
+
+  display: block;
+  width: 100%;
+  height: 100%;
+
+  cursor: pointer;
+
+  background-size: cover;
+  background-position: center center;
+  border: 0;
+  outline: none;
+
+  text-indent: -999em;
+
+  object-fit: cover;
+  margin: env(safe-area-inset);
+  padding: 0;
+}
+
+#history {
+  display: none;
+}
+
+#contextMenu {
+  display: none;
+  z-index: 100;
+  position: absolute;
+  width: auto;
+
+  border: 1px solid #000;
+
+  box-shadow: 7px 7px 4px -6px rgba(0, 0, 0, 0.75);
+}
+
+#contextMenu .menu {
+  position: relative;
+  display: block;
+
+  left: 0px;
+  top: 0px;
+  height: 20px;
+
+  font-family: sans-serif;
+  font-weight: normal;
+  white-space: nowrap;
+
+  background-color: #333;
+  border-bottom: 1px solid #555;
+
+  margin: 0;
+  padding: 5px 1em 0 5px;
+}
+
+#contextMenu .menu:last-child {
+  border-bottom: 0;
+}
+
+#contextMenu .menu A {
+  display: block;
+  width: 100%;
+  height: 100%;
+
+  color: #ccc;
+  font-size: 12px;
+  text-decoration: none;
+
+  margin: 0;
+  padding: 0;
+}
+
+#contextMenu .menu A U {
+  text-decoration: underline;
+}
+
+#contextMenu .menu:hover {
+  background-color: #555;
+  cursor: pointer;
+}
+
+/* Portrait */
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait) {
+  BODY {
+    height: 86.5vh;
+    overflow: hidden;
+  }
+}

@@ -1,4 +1,6 @@
 //require path and fs modules
+const env = require('dotenv').config();
+
 const path = require('path');
 const fs = require('fs');
 const http = require('http');
@@ -7,8 +9,8 @@ const sharp = require("sharp");
 const directoryPath = path.join(__dirname, '../images');
 const getColors = require('get-image-colors');
 
-const host = 'localhost';
-const port = 9999;
+const host = process.env.API_URL
+const port = process.env.API_PORT
 
 const html_colors = require("./colors.json");
 

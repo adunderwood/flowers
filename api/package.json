@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/adunderwood/flowers#readme",
   "dependencies": {
+    "dotenv": "^16.4.7",
     "fs": "0.0.1-security",
     "get-image-colors": "^4.0.1",
     "http": "0.0.1-security",
