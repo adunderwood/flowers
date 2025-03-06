@@ -11,6 +11,7 @@ Overload your senses with an abundance of flowers. This app cycles through a set
   * Forward and reverse image navigation with a full history
   * Download images or copy to the clipboard
   * Fully public domain
+  * Automatic mode!
 
 ## Benefits
 
