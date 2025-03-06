@@ -27,7 +27,6 @@ function startAutomaticTimer(speed, el) {
 
   clearTimer();
   automaticTimer = setInterval(function () {
-    getNewImage(); // increase buffer
     nextFlower(true); // increment flower
   }, speed);
 
