@@ -1,6 +1,6 @@
 // config
 const API_URL = "/flowers/api";
-const BASE_URL = "/flowers/images/";
+const IMAGES_URL = "/flowers/images/";
 
 // resize image quickly
 var initial_buffer = 100;
@@ -378,7 +378,7 @@ function getNewImage() {
       div.id = flower_image.replace(".jpg", "").replace(".jpeg", "");
       div.className = "flower-image";
       div.style.backgroundColor = "#222";
-      div.style.backgroundImage = "url('" + BASE_URL + flower_image + "')";
+      div.style.backgroundImage = "url('" + IMAGES_URL + flower_image + "')";
       div.setAttribute("onclick", "return nextFlower()");
 
       if (flower_image) {
