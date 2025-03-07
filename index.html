@@ -30,22 +30,31 @@
       </div>
     </div>
 
-    <div id="help" onclick="closeHelp()" onsubmit="return false;">
+    <div id="automatic" onclick="closeAuto()">
       <div class="help">
-        <form id="automatic_advance">
+        <form id="automatic_advance" onsubmit="return false;">
           <h3>Fully Automatic</h3>
 
           <strong>Speed:</strong>
-          <input id="speed1" type="button" value="Slowest" onclick="startAutomaticTimer(12000, this);">
-          <input id="speed2" type="button" value="1" onclick="startAutomaticTimer(10000, this);">
-          <input id="speed3" type="button" value="2" onclick="startAutomaticTimer(8000, this);">
-          <input id="speed4" type="button" value="3" onclick="startAutomaticTimer(6000, this);">
-          <input id="speed5" type="button" value="4" onclick="startAutomaticTimer(4000, this);">
-          <input id="speed6" type="button" value="5" onclick="startAutomaticTimer(2000, this);">
-          <input id="speed7" type="button" value="Fastest" onclick="startAutomaticTimer(1000, this);">
+          <input id="speed_1" type="button" value="1" onclick="startAutomaticTimer(60000, this);">
+          <input id="speed_2" type="button" value="2" onclick="startAutomaticTimer(30000, this);">
+          <input id="speed_3" type="button" value="3" onclick="startAutomaticTimer(15000, this);">
+          <input id="speed_4" type="button" value="4" onclick="startAutomaticTimer(10000, this);">
+          <input id="speed_5" type="button" value="5" onclick="startAutomaticTimer(5000, this);">
+          <input id="speed_6" type="button" value="6" onclick="startAutomaticTimer(2000, this);">
+          <input id="speed_7" type="button" value="7" onclick="startAutomaticTimer(1000, this);">
+          <input id="speed_8" type="button" value="8" onclick="startAutomaticTimer(500, this);">
+          <input id="speed_9" type="button" value="9" onclick="startAutomaticTimer(250, this);">
+          <input id="speed_10" type="button" value="Fastest" onclick="startAutomaticTimer(125, this);">
+          <input id="speed_11" type="button" value="Ludicrous" onclick="startAutomaticTimer(60, this);">
 
-          <input type="button" value="Stop" onclick="stopAutomaticTimer();">
+          <input type="button" value="Stop" onclick="stopAutomaticTimer(true);">
         </form>
+      </div>
+    </div>
+
+    <div id="help" onclick="closeHelp()" onsubmit="return false;">
+      <div class="help">
 
         <p>
           Flower Count: <span id="flowerCount">0</span>
@@ -56,6 +65,7 @@
         </h3>
 
         <ul>
+          <li>Automatic: A</li>
           <li>&nbsp;</li>
           <li>Next: &#x2192 or <u>N</u></li>
           <li>Back: &#x2190 or <u>B</u></li>

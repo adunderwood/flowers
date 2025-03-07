@@ -1,3 +1,7 @@
+// config
+const API_URL = "/flowers/api";
+const BASE_URL = "/flowers/images/";
+
 // resize image quickly
 var initial_buffer = 100;
 var buffer = 2;
@@ -14,8 +18,8 @@ var historySetting = true;
 var automaticTimer;
 
 function clearSpeedSelected() {
-  for (var i = 0; i < 7; i++) {
-    el = document.getElementById("speed" + (i + 1));
+  for (var i = 0; i < 11; i++) {
+    el = document.getElementById("speed_" + (i + 1));
     el.classList.remove("selected");
   }
 }
@@ -168,8 +172,27 @@ function showHelp() {
   fadeIn(modal, 200);
 }
 
+function showAuto() {
+  // close context menu
+  var ctxMenu = document.getElementById("contextMenu");
+  ctxMenu.style.display = "none";
+
+  var modal = document.getElementById("automatic");
+  //help.style.display = "block";
+  modal.style.zIndex = 999;
+  fadeIn(modal, 200);
+}
+
 function closeHelp() {
   var modal = document.getElementById("help");
+  //help.style.display = "none";
+  fadeOut(modal, 0, 200, 9);
+
+  firstUse = false;
+}
+
+function closeAuto() {
+  var modal = document.getElementById("automatic");
   //help.style.display = "none";
   fadeOut(modal, 0, 200, 9);
 
@@ -320,7 +343,7 @@ function getNewImage() {
     var page = document.getElementById("page");
 
     var rnd_qs = Math.floor(Math.random() * 10000);
-    request.open("GET", "/flowers/api?q=" + rnd_qs);
+    request.open("GET", API_URL + "?q=" + rnd_qs);
     //console.log('/flowers/api?q=' + rnd_qs)
 
     request.onload = () => {
@@ -355,8 +378,7 @@ function getNewImage() {
       div.id = flower_image.replace(".jpg", "").replace(".jpeg", "");
       div.className = "flower-image";
       div.style.backgroundColor = "#222";
-      div.style.backgroundImage = "url('/flowers/images/" + flower_image + "')";
-      //img.src = "/flowers/images/" + flower_image;
+      div.style.backgroundImage = "url('" + BASE_URL + flower_image + "')";
       div.setAttribute("onclick", "return nextFlower()");
 
       if (flower_image) {
@@ -438,18 +460,24 @@ document.onkeydown = function (e) {
   ) {
     closeHelp();
     closeModal();
+    closeAuto();
+
     nextFlower(true); // send with keystroke indicator
   }
 
   if (e.key == "d") {
     closeHelp();
     closeModal();
+    closeAuto();
+
     openFlower("download");
   }
 
   if (e.key == "t") {
     closeHelp();
     closeModal();
+    closeAuto();
+
     openFlower("tab");
   }
 
@@ -466,7 +494,8 @@ document.onkeydown = function (e) {
     }
   }
 
-  if (e.key == "a" || e.key == "b" || e.keyCode == "37") {
+  //e.key == "a" ||
+  if (e.key == "b" || e.keyCode == "37") {
     // back arrow
     closeHelp();
     closeModal();
@@ -474,15 +503,26 @@ document.onkeydown = function (e) {
     getHistory();
   }
 
+  if (e.key == "a") {
+    // back arrow
+    closeHelp();
+    closeModal();
+
+    console.log("A key pressed.");
+    showAuto();
+  }
+
   if (e.key === "Escape" || e.keyCode == 27) {
     // escape
     //var modal = document.getElementById("modal");
     //modal.style.display = "none";
+    stopAutomaticTimer(); // turn off automatic mode
 
     var ctxMenu = document.getElementById("contextMenu");
     ctxMenu.style.display = "none";
 
     closeHelp();
+    closeAuto();
   }
 };
 
