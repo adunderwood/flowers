@@ -6,7 +6,7 @@ const fs = require('fs');
 const http = require('http');
 const sharp = require("sharp");
 
-const directoryPath = path.join(__dirname, '../images');
+const directoryPath = path.join(__dirname, process.env.IMAGES_DIR);
 const getColors = require('get-image-colors');
 
 const host = process.env.API_URL
@@ -102,7 +102,7 @@ var metaColors = []
 async function getMetadata(file, res) {
   try {
 
-    var img = "../images/" + file.flower;
+    var img = directoryPath + file.flower;
 
 /*    getColors(path.join(__dirname, img)).then(colors => {
       // `colors` is an array of color objects
