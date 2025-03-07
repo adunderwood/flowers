@@ -27,7 +27,7 @@ Overload your senses with an abundance of flowers. This app cycles through a set
   * Backgrounds
   * Stage or set projections
 
-## Installation
+# Installation Guide
 
 ### Requirements
 
