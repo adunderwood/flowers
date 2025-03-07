@@ -27,7 +27,7 @@ Overload your senses with an abundance of flowers. This app cycles through a set
   * Backgrounds
   * Stage or set projections
 
-## Installation
+# Installation Guide
 
 ### Requirements
 
@@ -62,6 +62,10 @@ pm2 save</code>
 Copy the output of this command into your terminal and run it.
 
 <code>pm2 startup</code>
+
+### Changing the name of the images or API directory
+
+By default the name of the images directory is simply ./images. To change it, you'll need to modify two files: first update the .env file in ./api making sure that the directory name ends in a forward slash (/). Second update the ./scripts/main.js file variables IMAGES_URL with the images folder or the API_URL with the path to the API.
 
 ### Navigate to the directory
 
