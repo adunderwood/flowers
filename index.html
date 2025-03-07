@@ -10,7 +10,6 @@
   <body>
 
     <div id="modal">
-
       <div class="help">
         <h3>
           Keyboard Shortcuts:
@@ -19,6 +18,8 @@
         <ul>
           <li>Next: &#x2192 or <u>N</u></li>
           <li>Back: &#x2190 or <u>B</u></li>
+          <li>&nbsp;</li>
+          <li>Automatic Mode: <u>A</u></li>
           <li>&nbsp;</li>
           <li>Download: <u>D</u></li>
           <li>Open in a New Tab: <u>T</u></li>
@@ -30,7 +31,42 @@
       </div>
     </div>
 
+    <div id="help" onclick="closeHelp()" onsubmit="return false;">
+      <menu class="close"><a class="x" href="javascript: closeHelp()">X</a></menu>
+
+      <div class="help">
+
+        <p>
+          Flower Count: <span id="flowerCount">0</span>
+        </p>
+
+        <h3>
+          Keyboard Shortcuts:
+        </h3>
+
+        <ul>
+          <li>Next: &#x2192 or <u>N</u></li>
+          <li>Back: &#x2190 or <u>B</u></li>
+          <li>&nbsp;</li>
+          <li>Automatic Mode: A</li>
+          <li>&nbsp;</li>
+          <li>Download: <u>D</u></li>
+          <li>Open in a New Tab: <u>T</u></li>
+          <li>&nbsp;</li>
+          <li>Help: <u>H</u></li>
+          <li>&nbsp;</li>
+          <li><span title="Turning history off may save system resources">Use Session History</span>: <input id="historySetting" type="checkbox" onclick="setHistory()" checked></li>
+          <li><div class="hr"><hr></div></li>
+          <li>Save on Mobile: Long Press</li>
+          <li>&nbsp;</li>
+          <li>&nbsp;</li>
+          <li><a href="javascript:closeHelp()">Close Help</a></li>
+        </ul>
+      </div>
+    </div>
+
     <div id="automatic" onclick="closeAuto()">
+      <menu class="close"><a class="x" href="javascript: closeAuto()">X</a></menu>
       <div class="help">
         <form id="automatic_advance" onsubmit="return false;">
           <h3>Fully Automatic</h3>
@@ -46,42 +82,14 @@
           <input id="speed_8" type="button" value="8" onclick="startAutomaticTimer(500, this);">
           <input id="speed_9" type="button" value="9" onclick="startAutomaticTimer(250, this);">
           <input id="speed_10" type="button" value="Fastest" onclick="startAutomaticTimer(125, this);">
-          <input id="speed_11" type="button" value="Ludicrous" onclick="startAutomaticTimer(60, this);">
+          <input id="speed_11" type="button" value="Ludicrous Speed" onclick="startAutomaticTimer(60, this);">
 
-          <input type="button" value="Stop" onclick="stopAutomaticTimer(true);">
+          <br>
+          
+          <p>
+            <input type="button" class="stop" value="Stop" onclick="stopAutomaticTimer(true);">
+          </p>
         </form>
-      </div>
-    </div>
-
-    <div id="help" onclick="closeHelp()" onsubmit="return false;">
-      <div class="help">
-
-        <p>
-          Flower Count: <span id="flowerCount">0</span>
-        </p>
-
-        <h3>
-          Keyboard Shortcuts:
-        </h3>
-
-        <ul>
-          <li>Automatic: A</li>
-          <li>&nbsp;</li>
-          <li>Next: &#x2192 or <u>N</u></li>
-          <li>Back: &#x2190 or <u>B</u></li>
-          <li>&nbsp;</li>
-          <li>Download: <u>D</u></li>
-          <li>Open in a New Tab: <u>T</u></li>
-          <li>&nbsp;</li>
-          <li>Help: <u>H</u></li>
-          <li>&nbsp;</li>
-          <li><span title="Turning history off may save system resources">Use Session History</span>: <input id="historySetting" type="checkbox" onclick="setHistory()" checked></li>
-          <li><div class="hr"><hr></div></li>
-          <li>Save on Mobile: Long Press</li>
-          <li>&nbsp;</li>
-          <li>&nbsp;</li>
-          <li><a href="javascript:closeHelp()">Close Help</a></li>
-        </ul>
       </div>
     </div>
 

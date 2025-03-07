@@ -503,13 +503,21 @@ document.onkeydown = function (e) {
     getHistory();
   }
 
-  if (e.key == "a") {
-    // back arrow
+  if (e.key.toLowerCase() == "a") {
+    var auto = document.getElementById("automatic");
+    var o = auto.style.zIndex;
+
+    // close other modals
     closeHelp();
     closeModal();
 
-    console.log("A key pressed.");
-    showAuto();
+    if (o != 999) {
+      // only show if it's not already showing
+      showAuto();
+    } else {
+      // hide it if it is
+      closeAuto();
+    }
   }
 
   if (e.key === "Escape" || e.keyCode == 27) {
