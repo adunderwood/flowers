@@ -17,6 +17,46 @@ var historySetting = true;
 
 var automaticTimer;
 
+async function copyImageToClipboard(imageElement) {
+  var page = document.getElementById("page");
+  var flower = page.firstElementChild;
+
+  var url = flower.style.backgroundImage.match(/url\(["']?([^"']*)["']?\)/)[1];
+
+  var imageElement = document.createElement("img");
+  imageElement.src = url;
+
+  const canvas = document.createElement("canvas");
+  const ctx = canvas.getContext("2d");
+
+  // Set canvas dimensions to match the image
+  canvas.width = imageElement.width;
+  canvas.height = imageElement.height;
+
+  // Draw the image onto the canvas
+  ctx.drawImage(imageElement, 0, 0);
+
+  // Get the canvas as a PNG blob
+  const blob = await new Promise((resolve) => {
+    canvas.toBlob((blob) => {
+      resolve(blob);
+    }, "image/png");
+  });
+
+  // Create a ClipboardItem with the PNG blob
+  const clipboardItem = new ClipboardItem({
+    "image/png": blob,
+  });
+
+  // Write the ClipboardItem to the clipboard
+  try {
+    await navigator.clipboard.write([clipboardItem]);
+    console.log("Image copied to clipboard!");
+  } catch (error) {
+    console.error("Failed to copy image to clipboard:", error);
+  }
+}
+
 function clearSpeedSelected() {
   for (var i = 0; i < 11; i++) {
     el = document.getElementById("speed_" + (i + 1));
@@ -452,8 +492,8 @@ document.onkeydown = function (e) {
   ctxMenu.style.display = "none";
 
   if (
-    e.key == "f" ||
-    e.key == "n" ||
+    e.key.toLowerCase() == "f" ||
+    e.key.toLowerCase() == "n" ||
     e.code == "Enter" ||
     e.code == "Space" ||
     e.keyCode == "39"
@@ -465,7 +505,7 @@ document.onkeydown = function (e) {
     nextFlower(true); // send with keystroke indicator
   }
 
-  if (e.key == "d") {
+  if (e.key.toLowerCase() == "d") {
     closeHelp();
     closeModal();
     closeAuto();
@@ -473,7 +513,7 @@ document.onkeydown = function (e) {
     openFlower("download");
   }
 
-  if (e.key == "t") {
+  if (e.key.toLowerCase() == "t") {
     closeHelp();
     closeModal();
     closeAuto();
@@ -481,7 +521,7 @@ document.onkeydown = function (e) {
     openFlower("tab");
   }
 
-  if (e.key == "h") {
+  if (e.key.toLowerCase() == "h") {
     var help = document.getElementById("help");
     var o = help.style.zIndex;
 
@@ -495,7 +535,7 @@ document.onkeydown = function (e) {
   }
 
   //e.key == "a" ||
-  if (e.key == "b" || e.keyCode == "37") {
+  if (e.key.toLowerCase() == "b" || e.keyCode == "37") {
     // back arrow
     closeHelp();
     closeModal();
@@ -518,6 +558,14 @@ document.onkeydown = function (e) {
       // hide it if it is
       closeAuto();
     }
+  }
+
+  if (e.key.toLowerCase() == "c") {
+    closeHelp();
+    closeModal();
+    closeAuto();
+
+    openFlower("tab");
   }
 
   if (e.key === "Escape" || e.keyCode == 27) {
